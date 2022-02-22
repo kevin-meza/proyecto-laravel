@@ -43,6 +43,19 @@ class PersonaController extends Controller
      */
     public function store(Request $request)
     {
+
+
+        $validar=[
+            'nombre'=>"required|string|max:100",
+            'apellido'=>"required|string|max:100",
+            'correo'=>"required|string|max:100",
+            'imagen'=>"required|mimes:jpg,jpeg,png"
+        ];
+        $mensaje=[
+            'required'=>"El :attribute es requerido",
+            'imagen.required'=> "La imagen es requerida"
+        ];
+        $this->validate($request,$validar,$mensaje);
       //obtiene todos los datos menos el token
       //llamaal modelo personas y el  metodo insert
         $datosPersona = request()->except('_token');
@@ -52,7 +65,7 @@ class PersonaController extends Controller
         }
         Persona::insert($datosPersona);
 
-         return redirect('persona');
+         return redirect('persona')->with('mensaje','Persona Agregada');
     }
 
     /**
@@ -89,6 +102,22 @@ class PersonaController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $validar=[
+            'nombre'=>"required|string|max:100",
+            'apellido'=>"required|string|max:100",
+            'correo'=>"required|string|max:100",
+
+        ];
+        $mensaje=[
+            'required'=>"El :attribute es requerido",
+
+        ];
+        if($request->hasFile('imagen')){
+            $campos=['imagen'=>"required|mimes:jpg,jpeg,png"];
+            $mensaje=['Imagen Requerida'];
+        }
+        $this->validate($request,$validar,$mensaje);
         //actualizar datos
         $datosPersonaEdit = request()->except(['_token','_method']);
         if($request->hasFile('imagen')){
@@ -103,7 +132,8 @@ class PersonaController extends Controller
         Persona::where('id','=',$id)->update($datosPersonaEdit);
 
         $persona=Persona::findOrFail($id);
-        return view('personas.edit',compact('persona'))->with('mensaje','Modificado');
+        //return view('personas.edit',compact('persona'))->with('mensaje','Modificado');
+        return redirect('persona')->with('mensaje','Persona Modificada');
     }
 
     /**

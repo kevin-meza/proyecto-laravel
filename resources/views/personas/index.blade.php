@@ -3,10 +3,16 @@
 @section('content')
 
 <div class="container">
-Mostrar lista personas
-@if(Session::has('mensaje'))
-{{Session::get('mensaje')}}
-@endif
+{{-- Mostrar lista personas --}}
+
+
+    @if(Session::has('mensaje'))  <div class="alert alert-success alert-dismissible" role="alert">
+        <strong>{{Session::get('mensaje')}}</strong> </div>
+
+    @endif
+    </strong>
+    {{-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span></button> --}}
 
 <a href="{{url('persona/create')}}" class="btn btn-success">Registrar nueva Persona</a>
 <table class="table">
@@ -45,6 +51,7 @@ Mostrar lista personas
         @endforeach
     </tbody>
 </table>
+{!! $listaPersonas->links() !!}
 
 </div>
 @endsection

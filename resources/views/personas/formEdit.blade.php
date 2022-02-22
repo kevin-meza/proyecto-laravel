@@ -9,7 +9,15 @@
     @endif
 Formulario
 <h1>{{$modo}}</h1>
-
+@if (count($errors)>0)
+<div class="alert alert-danger" role="alert">
+    <ul>
+        @foreach($errors->all() as $error)
+          <li>  {{$error}}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 {{-- envia los datos a laurl persona q tiene el post por store --}}
    <form action="{{url('/persona/'.$persona->id)}}" method="POST" enctype="multipart/form-data">
     {{-- llave de seguridad obligatoria --}}

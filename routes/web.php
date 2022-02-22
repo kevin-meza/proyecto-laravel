@@ -36,16 +36,16 @@ use Illuminate\Support\Facades\Auth;
 
 //accede al controllador de persona para enviar a cada ruta/link
 
-// Route::get('/', function () {
-//         return view('welcome');
-//     });
+Route::get('/', function () {
+        return view('auth.login');
+    });
 
 Route::resource('persona',PersonaController::class)->middleware("auth");
 
 
 Auth::routes();
 
-Route::get('/home',[PersonaController::class, 'index'])->name('home');
+Route::get('/home',[Auth::class, 'index'])->name('home');
 
 Route::group(['moddleware' => 'auth'],function(){
 
