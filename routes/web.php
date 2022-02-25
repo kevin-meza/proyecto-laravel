@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PersonaController;
+use App\Http\Controllers\ProductosController;
 use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -41,7 +42,7 @@ Route::get('/', function () {
     });
 
 Route::resource('persona',PersonaController::class)->middleware("auth");
-
+Route::resource('productos',ProductosController::class);
 
 Auth::routes();
 
