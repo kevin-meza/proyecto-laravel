@@ -57,7 +57,7 @@ class ProductosController extends Controller
         $datosProductos = request()->except('_token');
         if($request->hasFile('foto')){
             //si hay una imagen la tomamos le ponemos un nombre y la enviamos a carpeta storage
-            $datosProductos['foto']=$request->file('foto')->store('ImagenProducto','public');
+            $datosProductos['foto']=$request->file('foto')->store('uploads/ImagenProducto','public');
         }
         Productos::insert($datosProductos);
 
@@ -81,9 +81,12 @@ class ProductosController extends Controller
      * @param  \App\Models\Productos  $productos
      * @return \Illuminate\Http\Response
      */
-    public function edit(Productos $productos)
+    public function edit(Productos $productos,$id)
     {
         //
+
+        $productoEdit=Productos::findOrFail($id);
+        return view('productos.productosFormEdit',compact('productoEdit'));
     }
 
     /**
@@ -93,9 +96,23 @@ class ProductosController extends Controller
      * @param  \App\Models\Productos  $productos
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Productos $productos)
+    public function update(Request $request,$id)
     {
         //
+
+        $datosEditProducto = request()->except(['_token','_method']);
+
+        if($request->hasFile('foto')){
+            //si hay una imagen la tomamos le ponemos un nombre y la enviamos a carpeta storage
+            $producto=Productos::findOrFail($id);
+            Storage::delete('public/'.$producto->foto);
+
+            $datosEditProductos['foto']=$request->file('foto')->store('uploads/ImagenProducto','public');
+        }
+
+        Productos::where('id','=',$id)->update($datosEditProducto);
+        $producto=Productos::findOrFail($id);
+        return redirect('productos');
     }
 
     /**
