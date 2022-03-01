@@ -4,6 +4,7 @@
 @section('content')
 
 <div class="container">
+    <a href="{{url('productos/create')}}" class="btn btn-success">Registrar Producto</a>
 <table class="table">
 
     <thead>

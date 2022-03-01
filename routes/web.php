@@ -48,7 +48,7 @@ Auth::routes();
 
 Route::get('/home',[Auth::class, 'index'])->name('home');
 
-Route::group(['moddleware' => 'auth'],function(){
+Route::group(['middleware' => 'auth'],function(){
 
     Route::get('/',[PersonaController::class,'index'])->name('home');
 });

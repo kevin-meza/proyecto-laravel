@@ -15,7 +15,6 @@ class ProductosController extends Controller
     public function index()
     {
 
-
         $listaProductos['listaProductos']=Productos::all();
         return view('productos.indexproductos',$listaProductos);
     }
@@ -59,6 +58,7 @@ class ProductosController extends Controller
             //si hay una imagen la tomamos le ponemos un nombre y la enviamos a carpeta storage
             $datosProductos['foto']=$request->file('foto')->store('uploads/ImagenProducto','public');
         }
+        // echo $datosProductos['foto'];exit;
         Productos::insert($datosProductos);
 
          return redirect('productos')->with('mensaje','Persona Agregada');
@@ -81,7 +81,7 @@ class ProductosController extends Controller
      * @param  \App\Models\Productos  $productos
      * @return \Illuminate\Http\Response
      */
-    public function edit(Productos $productos,$id)
+    public function edit($id)
     {
         //
 
@@ -107,8 +107,10 @@ class ProductosController extends Controller
             $producto=Productos::findOrFail($id);
             Storage::delete('public/'.$producto->foto);
 
-            $datosEditProductos['foto']=$request->file('foto')->store('uploads/ImagenProducto','public');
+            $datosEditProducto['foto']=$request->file('foto')->store('uploads/imagenProducto','public');
         }
+//         print_r($datosEditProducto);
+// exit;
 
         Productos::where('id','=',$id)->update($datosEditProducto);
         $producto=Productos::findOrFail($id);
